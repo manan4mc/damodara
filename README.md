@@ -10,6 +10,10 @@
 
 ---
 
+> [!IMPORTANT]
+> **This Project is Vibe Coded**  
+>  I’ve tested it heavily, but it may still have bugs. Please check that your backups can be restored and keep another copy of anything important.
+
 > [!NOTE]
 > **Target Platform & Verification Context:**  
 > Damodara targets **Paper 26.2** running on **Java 25**.
