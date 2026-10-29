@@ -23,24 +23,36 @@
 
 <h2>What you are responsible for</h2>
 <ul>
-<li>Setting up Damodara and its backup settings correctly.</li>
-<li>Checking that your backups are actually created and usable.</li>
-<li>Having enough local disk space and enough Google Drive storage. Uploads can fail if either runs out.</li>
-<li>Testing your restore process before you need it.</li>
+<li>Choosing suitable backup, schedule, and retention settings for your server.</li>
+<li>Checking that your backups are actually created and can be restored.</li>
+<li>Having enough local disk space and enough Google Drive storage. Backups and uploads can fail if either runs out.</li>
 <li>Your server, your Google account, and the files in your backups.</li>
 </ul>
 
-<h2>Live backups are best-effort</h2>
-<p>Damodara makes a non-blocking live copy while your server is running. Files that are changing during the copy may not all represent exactly the same moment, so a backup can be inconsistent. A backup is not guaranteed to be usable until you have checked it.</p>
+<h2>How backups work</h2>
+<p>Damodara creates backups while your Minecraft server is running. It makes a live copy of your files without pausing the server. This is best-effort. Files that change during the copy may not all be captured at exactly the same moment, so a backup can be inconsistent.</p>
+<p>Because Damodara runs inside the server, scheduled backups can only happen while the server is running.</p>
 
-<h2>Restoring</h2>
-<p>Restore backups only with the Minecraft server stopped. Do not restore files into a running server.</p>
+<h2>Schedules and catch-up</h2>
+<p>Scheduled backups follow the settings your administrator sets in <code>config.yml</code>. If the server is off when a backup is due, Damodara can't make that backup. If catch-up is enabled, it can make one fresh backup after the server starts. It does not recreate the backup that was missed.</p>
+
+<h2>Where backups are stored</h2>
+<p>Backups can be saved to the local folder you configure and uploaded to the server owner's Google Drive account. Uploading to Google Drive only works after the owner authorizes Damodara to access their account.</p>
 
 <h2>Retention</h2>
-<p>Local retention may delete older local ZIP archives based on your configured limits. Damodara does not delete anything from Google Drive. You manage those files yourself.</p>
+<p>Local retention and Google Drive retention are separate settings.</p>
+<ul>
+<li><b>Local:</b> Older local backup archives may be deleted based on the limits you configure.</li>
+<li><b>Google Drive:</b> Retention is off by default. If an administrator turns it on, Damodara moves eligible older Damodara backups to your Google Drive Trash. It does not permanently delete them. Google's own Trash rules apply from there.</li>
+</ul>
+<p>Choose these settings carefully so you keep as many backups as you need.</p>
+
+<h2>Restoring</h2>
+<p>Restoring a running server in place is not supported. Restore backups only with the Minecraft server stopped. Test your restore process before you need it.</p>
 
 <h2>License and as-is</h2>
-<p>Damodara is open source under the MIT License. The license text is in the LICENSE file in the project repository: <a href="https://github.com/manan4mc/damodara">https://github.com/manan4mc/damodara</a>. As the MIT License says, the software is provided as-is, without warranty.</p>
+<p>Damodara is open source under the MIT License. The license text is in the LICENSE file in the project repository: <a href="https://github.com/manan4mc/damodara">https://github.com/manan4mc/damodara</a>.</p>
+<p>Damodara is provided as-is. The author does not guarantee that every backup will be complete or that it can be restored. Nothing in these terms is meant to take away any rights you have under the law where you live.</p>
 
 <h2>Contact</h2>
 <p>Email: <a href="mailto:sati.manan128@gmail.com">sati.manan128@gmail.com</a></p>
