@@ -1,0 +1,96 @@
+# Damodara - scheduled backups for Paper servers
+# Made by Manan @manan4mc
+# Backups require the server to be running.
+# Damodara does not pause the game or run heavy backup work on the tick thread.
+# Disk and CPU load can still affect the server during large backups.
+
+# --- Schedule ---------------------------------------------------------------
+schedule:
+  # Default schedule state at startup. Change this in config.yml.
+  enabled: true
+
+  # Calendar-day interval. 1 = every day.
+  days-interval: 1
+
+  # 24-hour HH:mm. Multiple daily times are allowed only when days-interval is 1.
+  # For example: ["00:00", "12:00"] runs twice daily.
+  times:
+    - "00:00"
+
+  # "SYSTEM" uses the host timezone. An IANA timezone can be set explicitly.
+  timezone: "Asia/Kolkata"
+
+  # If schedule slots were missed while offline, run one fresh backup after startup.
+  catch-up: true
+  startup-delay-seconds: 60
+
+# --- Paths ------------------------------------------------------------------
+storage:
+  source-directory: "."
+  # Must not be the server folder or a parent of it.
+  # If inside the server folder, it is excluded automatically.
+  destination-directory: "backups"
+  follow-symlinks: false
+
+# --- What gets backed up ----------------------------------------------------
+# Glob patterns are relative to source-directory.
+filters:
+  excludes:
+    - "backups/**"
+    - ".damodar_staging/**"
+    - "plugins/Damodara/credentials/**"
+    - "plugins/Damodar/credentials/**"
+    - "plugins/Damodara/*.tmp"
+    - "crash-reports/**"
+    - "logs/*.log.gz"
+    - "cache/**"
+    - "**/session.lock"
+    - "*.tmp"
+  # Empty means include everything not excluded.
+  includes: []
+
+# --- Archive ----------------------------------------------------------------
+archive:
+  format: "ZIP"
+
+  # Compression level 1 is fastest/larger; 9 is slowest/smaller.
+  compression-level: 6
+
+  # Filename placeholders: {server}, {timestamp}, {extension}
+  server-identifier: "server"
+  filename-pattern: "{server}-{timestamp}.{extension}"
+  timestamp-pattern: "yyyy-MM-dd_HH-mm-ss"
+  timezone: "UTC"
+  verify-checksum: true
+
+# --- Retention --------------------------------------------------------------
+retention:
+  local:
+    enabled: true
+    max-count: 3
+
+  # Disabled by default. When enabled, old Damodara Drive backups go to Trash.
+  google-drive:
+    enabled: false
+    max-count: 3
+
+# --- Google Drive -----------------------------------------------------------
+# Connect from the server console with /damodara auth connect.
+# Credentials are stored unencrypted in plugins/Damodara/credentials/.
+# Anyone with filesystem access to that server account may be able to read them.
+# The plugin requests only https://www.googleapis.com/auth/drive.file.
+google-drive:
+  enabled: true
+
+  # Leave empty to use the OAuth client configured for the build.
+  client-id: ""
+  client-secret: ""
+
+  # Empty means automatically create or reuse a Google Drive folder named "backup".
+  # A supplied ID means upload into that existing Drive folder.
+  folder-id: ""
+
+  # Upload chunk size in MB; must be a multiple of 256 KB.
+  chunk-size-mb: 8
+  max-retries: 3
+  initial-retry-delay-seconds: 5

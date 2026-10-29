@@ -1,0 +1,35 @@
+name: Damodara
+version: '1.0.0-SNAPSHOT'
+main: com.damodar.DamodarPlugin
+api-version: '26.2'
+description: Automated, safe, scheduled Minecraft server backups with Google Drive off-site cloud sync.
+author: Damodara Contributors
+
+commands:
+  damodara:
+    description: Primary management command for Damodara backups and cloud synchronization.
+    permission: damodara.admin
+    usage: /damodara [backup|backups|status|reload|auth|help]
+    aliases: [dm]
+
+permissions:
+  damodara.admin:
+    description: Full administrative access to Damodara commands, authentication, and settings.
+    default: op
+    children:
+      damodara.backup: true
+      damodara.status: true
+      damodara.auth: true
+      damodara.reload: true
+  damodara.backup:
+    description: Allows triggering manual backups.
+    default: op
+  damodara.status:
+    description: Allows viewing backup progress, last run results, local archive list, and Drive sync status.
+    default: op
+  damodara.auth:
+    description: Allows managing Google Drive device-flow linking (console-only) and disconnection.
+    default: op
+  damodara.reload:
+    description: Allows reloading Damodara configuration safely.
+    default: op
